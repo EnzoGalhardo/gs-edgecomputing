@@ -66,6 +66,9 @@ Os dados são enviados via **protocolo MQTT** para um broker e exibidos em tempo
 
 ## 🛠️ Instruções de Uso
 
+### Link do vídeo: https://youtu.be/iC1TVj8qITY?si=FVcw_PrXpsQkHhld
+### Link do Wokwi: https://wokwi.com/projects/433064625530140673
+
 ### 1. Montagem do Hardware
 
 | Componente               | Conexão no ESP32                                 |
