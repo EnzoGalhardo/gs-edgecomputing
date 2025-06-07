@@ -1,162 +1,91 @@
-📡 Documentação Técnica – Monitoramento de Enchentes com ESP32 e Node-RED
-📝 Sumário
-Descrição Geral
+# Monitoramento de Enchentes: Sistema Inteligente com ESP32 e Node-RED
 
-Arquitetura do Sistema
+## 📘 Descrição do Projeto
 
-Componentes Utilizados
+Este projeto propõe um sistema de **monitoramento de enchentes** utilizando um microcontrolador **ESP32**, sensores ambientais e uma interface de visualização desenvolvida com **Node-RED**. O sistema opera com base em conceitos de **Edge Computing** e **IoT**, coletando e analisando dados como:
 
-Funcionamento do Sistema
+- **Nível da água** (sensor ultrassônico)
+- **Umidade do solo**
+- **Volume de chuva** (simulado com potenciômetro)
 
-Fluxo de Dados e Lógica de Alerta
+Os dados são enviados via **protocolo MQTT** para um broker e exibidos em tempo real através de um **dashboard interativo no Node-RED**.
 
-Instruções de Implementação
+---
 
-Dashboard e Visualização
+## 🎯 Objetivos
 
-Links Importantes
+- **Detecção Precoce:** Antecipar situações de risco de enchentes.
+- **Monitoramento em Tempo Real:** Acompanhamento contínuo de dados ambientais.
+- **Visualização Intuitiva:** Dados claros e acessíveis via dashboard.
+- **Alertas Automatizados:** Notificações visuais e LED de alerta.
+- **Aplicação de IoT e Edge Computing:** Solução moderna e eficiente para problemas reais.
 
-Autores
+---
 
-📘 Descrição Geral
-Este projeto propõe um sistema inteligente de monitoramento de enchentes, capaz de coletar dados ambientais em tempo real por meio de sensores acoplados a um ESP32, que atua como nó de borda (Edge Computing). Os dados são enviados via MQTT para um broker, onde são processados e visualizados usando o Node-RED.
+## 🔧 Funcionalidades
 
-O objetivo é fornecer uma solução de baixo custo, flexível e intuitiva para detectar riscos de inundações e emitir alertas automáticos de forma visual e acessível.
+- Medição de nível da água (HC-SR04)
+- Medição de umidade do solo
+- Simulação do volume de chuva (potenciômetro)
+- Processamento local (ESP32 com lógica embarcada)
+- Comunicação MQTT com broker público
+- Visualização no Node-RED com gráficos, indicadores e histórico
+- Alertas visuais com LED no hardware e avisos no dashboard
+- Saída serial para debug e monitoramento
 
-🧩 Arquitetura do Sistema
-plaintext
-Copiar
-Editar
-[Sensores (Nível Água, Umidade, Chuva)]
-           ↓
-        [ESP32]
-    ↳ Lógica de Alerta (local)
-    ↳ Envio via MQTT
-           ↓
-      [Broker MQTT]
-           ↓
-     [Node-RED Dashboard]
-    ↳ Visualização
-    ↳ Gráficos/Alertas
-🛠️ Componentes Utilizados
-Hardware
-Componente	Função
-ESP32 DevKit C	Microcontrolador principal
-Sensor HC-SR04	Medição de nível da água
-Sensor de umidade solo	Leitura da umidade do terreno
-Potenciômetro	Simulação da quantidade de chuva
-LED	Alerta visual local
-Protoboard e Jumpers	Conexões
+---
 
-Software
-Arduino IDE
+## 💻 Requisitos do Sistema
 
-Node-RED (https://nodered.org)
+### Hardware
 
-Broker MQTT (HiveMQ, Mosquitto, etc.)
+- ✅ ESP32 DevKit C (ou equivalente)
+- ✅ Sensor Ultrassônico HC-SR04
+- ✅ Sensor de Umidade do Solo
+- ✅ Potenciômetro (simulação de chuva)
+- ✅ Protoboard e jumpers
+- ✅ Fonte de energia (USB ou externa)
 
-Bibliotecas Arduino
-cpp
-Copiar
-Editar
-WiFi.h
-PubSubClient.h
-ArduinoJson.h
-⚙️ Funcionamento do Sistema
-Sensores
-HC-SR04: Mede distância (nível da água).
+### Software
 
-Sensor de Umidade: Mede umidade do solo (0–100%).
+- **Arduino IDE**
+- **Node-RED** (https://nodered.org ou https://flowfuse.com)
+- **Broker MQTT** (ex.: HiveMQ ou Mosquitto)
 
-Potenciômetro: Simula volume de chuva.
+### Bibliotecas Arduino IDE
 
-ESP32
-Faz leitura dos sensores periodicamente.
+- `WiFi.h`
+- `PubSubClient.h`
+- `ArduinoJson.h`
 
-Aplica regras locais de alerta (ex: se nível da água > 10cm e umidade > 80%).
+### Paletas Node-RED
 
-Envia os dados em JSON via MQTT.
+- `node-red-dashboard`
 
-Node-RED
-Recebe e interpreta as mensagens MQTT.
+---
 
-Exibe os dados em tempo real.
+## 🛠️ Instruções de Uso
 
-Gera gráficos e alerta visual com LED virtual e status textual.
+### 1. Montagem do Hardware
 
-🧠 Fluxo de Dados e Lógica de Alerta
-Exemplo de JSON enviado:
-json
-Copiar
-Editar
-{
-  "nivel_agua_cm": 12.5,
-  "umidade_solo": 87,
-  "volume_chuva": 70,
-  "alerta": true
-}
-Lógica básica no ESP32:
-cpp
-Copiar
-Editar
-if (nivel_agua > 10 && umidade > 80) {
-  alerta = true;
-  digitalWrite(ledPin, HIGH);
-} else {
-  alerta = false;
-  digitalWrite(ledPin, LOW);
-}
-🧪 Instruções de Implementação
-1. Montagem do Hardware
-Sensor/Componente	Pino ESP32
-HC-SR04 Trig	D13
-HC-SR04 Echo	D14
-Umidade A0	A34
-Potenciômetro	A32
-LED	D22 (via 220Ω)
+| Componente               | Conexão no ESP32                                 |
+|--------------------------|--------------------------------------------------|
+| HC-SR04 (ultrassônico)   | VCC → 5V ou 3.3V<br>GND → GND<br>Trig → D13<br>Echo → D14 |
+| Umidade do Solo          | VCC → 3.3V<br>GND → GND<br>A0 → A34              |
+| Potenciômetro (chuva)    | VCC → 3.3V<br>GND → GND<br>Pino Central → A32    |
+| LED (alerta)             | Ânodo → D22 (com resistor de 220Ω)<br>Cátodo → GND |
 
-2. Código no ESP32 (Arduino IDE)
-Configure SSID e senha do Wi-Fi.
+---
 
-Configure o broker MQTT e tópicos.
+### 2. Código no Arduino IDE
 
-Faça upload do código para o ESP32.
+1. Abra o Arduino IDE.
+2. Insira o código do projeto.
+3. Configuração do Node-RED
+-Acesse http://localhost:1880
+-Importe o flows para o node-red
+4. Teste e Monitoramento
+Simulador (Wokwi): use sliders para alterar os sensores
 
-cpp
-Copiar
-Editar
-const char* ssid = "SEU_SSID_WIFI";
-const char* password = "SUA_SENHA";
-const char* mqtt_broker = "broker.hivemq.com";
-const char* mqtt_topic = "sensor/monitoramento_enchente";
-3. Node-RED
-Instale o node-red-dashboard:
-
-Menu → Manage Palette → Install → node-red-dashboard
-
-Configure os nós:
-
-mqtt in → Tópico: sensor/monitoramento_enchente
-
-function → Interpretação do JSON
-
-ui_gauge / ui_chart → Visualização
-
-ui_text / ui_led → Alertas
-
-📊 Dashboard e Visualização
-Indicadores visuais para:
-
-Nível da água (cm)
-
-Umidade do solo (%)
-
-Volume de chuva (%)
-
-🔗 Links Importantes
-💻 Projeto Wokwi: 
-
-📺 Demonstração em Vídeo: 
-
-👥 Autor
-- Enzo Galhardo | RM561001
+### 👨‍💻 Autor
+-Enzo Galhardo RM 561001
