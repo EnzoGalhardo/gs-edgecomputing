@@ -49,8 +49,8 @@ Os dados são enviados via **protocolo MQTT** para um broker e exibidos em tempo
 ### Software
 
 - **Arduino IDE**
-- **Node-RED** (https://nodered.org ou https://flowfuse.com)
-- **Broker MQTT** (ex.: HiveMQ ou Mosquitto)
+- **Node-RED**
+- **Broker MQTT**
 
 ### Bibliotecas Arduino IDE
 
