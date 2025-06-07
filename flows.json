@@ -1,0 +1,288 @@
+[
+    {
+        "id": "3a7cf1a9de9084b7",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1df5f2617583b3f1",
+        "type": "mqtt-broker",
+        "name": "HiveMQ Broker ",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d7c2b7f30fd1e023",
+        "type": "ui_tab",
+        "name": "Monitoramento de Enchentes",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "a56ecbcdc5fdeaea",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "d32b4869f09e7575",
+        "type": "ui_group",
+        "name": "home",
+        "tab": "d7c2b7f30fd1e023",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7b8f5026449f5d39",
+        "type": "mqtt in",
+        "z": "3a7cf1a9de9084b7",
+        "name": "",
+        "topic": "globalsolution/monitoramento",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "1df5f2617583b3f1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "8b545ede911b119a"
+            ]
+        ]
+    },
+    {
+        "id": "8b545ede911b119a",
+        "type": "function",
+        "z": "3a7cf1a9de9084b7",
+        "name": "Extrair dados",
+        "func": "var nivel_agua = msg.payload.nivel_agua;\nvar umidade_solo = msg.payload.umidade_solo;\nvar volume_chuva = msg.payload.volume_chuva;\n\nvar msg_nivel_agua = { payload: nivel_agua, topic: \"nivel_agua\" };\nvar msg_umidade_solo = { payload: umidade_solo, topic: \"umidade_solo\" };\nvar msg_volume_chuva = { payload: volume_chuva, topic: \"volume_chuva\" };\n\n// Retorna todas as mensagens de uma vez para as 3 saídas\nreturn [msg_nivel_agua, msg_umidade_solo, msg_volume_chuva];\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 260,
+        "wires": [
+            [
+                "a2c8ac7bdf4bf917"
+            ],
+            [
+                "4f42919f8f10d06e"
+            ],
+            [
+                "ccdfae512d6d4881"
+            ]
+        ]
+    },
+    {
+        "id": "a2c8ac7bdf4bf917",
+        "type": "ui_gauge",
+        "z": "3a7cf1a9de9084b7",
+        "name": "",
+        "group": "d32b4869f09e7575",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Nível da Água (mm)",
+        "label": "mm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "200",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "100",
+        "seg2": "150",
+        "diff": false,
+        "className": "",
+        "x": 760,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ccdfae512d6d4881",
+        "type": "ui_gauge",
+        "z": "3a7cf1a9de9084b7",
+        "name": "",
+        "group": "d32b4869f09e7575",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Umidade do Solo",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "4095",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 750,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4f42919f8f10d06e",
+        "type": "ui_gauge",
+        "z": "3a7cf1a9de9084b7",
+        "name": "",
+        "group": "d32b4869f09e7575",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Volume de Chuva",
+        "label": "mm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "4095",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 750,
+        "y": 260,
+        "wires": []
+    }
+]
