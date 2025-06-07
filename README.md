@@ -77,7 +77,7 @@ Os dados são enviados via **protocolo MQTT** para um broker e exibidos em tempo
 
 ---
 
-### 2. Código no Arduino IDE
+### 2. Executando código-fonte
 
 1. Abra o Arduino IDE.
 2. Insira o código do projeto.
